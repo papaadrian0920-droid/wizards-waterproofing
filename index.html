@@ -14,194 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&display=swap">
-<style>
-/* Wizards Waterproofing. Concrete black, warm white, one caution yellow for anything you can press.
-   Blue only ever means water. The centrepiece is a real foundation cross-section that builds as you scroll. */
-:root {
-  --bg: #0F1011;
-  --bg-2: #18191B;
-  --ink: #F3F1EA;
-  --soft: #C4C1B8;
-  --line: #2B2C2F;
-  --hi: #FFC93C;
-  --on-hi: #0F1011;
-  --water: #2F8FE0;
-  --head: 64px;
-  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
-  --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: var(--head); }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip; padding-bottom: 78px; }
-body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: .06; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; text-transform: uppercase; text-wrap: balance; }
-h2 { font-size: clamp(2.8rem, 7vw, 5.4rem); font-weight: 900; line-height: .88; letter-spacing: -0.01em; }
-h3 { font-size: 1.7rem; font-weight: 800; line-height: 1; letter-spacing: .005em; }
-p { margin: 0; text-wrap: pretty; }
-a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; }
-a:hover { color: var(--hi); }
-:focus-visible { outline: 3px solid var(--hi); outline-offset: 3px; border-radius: 4px; }
-[hidden] { display: none !important; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.hl { display: inline-block; background: var(--hi); color: var(--on-hi); padding: 0 .1em; transform: rotate(-1.5deg); }
-.wrap { max-width: 1200px; margin: 0 auto; padding-inline: max(20px, env(safe-area-inset-left, 0px)); }
-.skip { position: absolute; left: -9999px; }
-.skip:focus { left: 16px; top: 12px; background: var(--hi); color: var(--on-hi); padding: 8px 14px; border-radius: 6px; z-index: 70; }
-.section { padding-block: clamp(80px, 11vw, 150px); }
-.alt { background: var(--bg-2); }
-.title { display: grid; gap: 22px; margin-bottom: clamp(40px, 6vw, 72px); max-width: 920px; }
-.title p { font-size: 1.22rem; color: var(--soft); max-width: 36em; }
-.mono { font-family: var(--f-mono); font-weight: 600; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
-
-/* buttons */
-.btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 999px; font-weight: 700; font-size: 1.05rem; text-decoration: none; background: var(--hi); color: var(--on-hi); border: 0; cursor: pointer; transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s; }
-.btn:hover { color: var(--on-hi); transform: translateY(-2px) rotate(-1deg); box-shadow: 0 12px 30px -10px rgba(255, 201, 60, .6); }
-.btn:active { transform: translateY(1px) scale(.98); }
-.btn-dark { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
-.btn-dark:hover { color: var(--ink); box-shadow: inset 0 0 0 2px var(--hi); }
-
-/* header */
-.top { position: sticky; top: 0; z-index: 40; height: var(--head); background: rgba(15, 16, 17, .88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
-.top .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo:hover { color: var(--ink); }
-.logo-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--hi); display: grid; place-items: center; transform: rotate(-8deg); flex: none; overflow: hidden; }
-.logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-.logo b { font: 900 1.6rem/1 var(--f-display); text-transform: uppercase; letter-spacing: .01em; }
-.logo small { display: block; font: 600 .62rem/1.2 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
-.top nav { display: flex; align-items: center; gap: 28px; font-weight: 600; }
-.top nav a:not(.btn) { text-decoration: none; }
-.top .btn { padding: 10px 18px; font-size: .95rem; }
-@media (max-width: 860px) { .top nav a:not(.btn) { display: none; } }
-@media (max-width: 520px) { .top .btn [data-biz] { display: none; } }
-
-/* hero */
-.hero { padding-block: clamp(44px, 7vw, 96px) clamp(64px, 9vw, 120px); }
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: clamp(40px, 6vw, 88px); align-items: center; }
-.hero h1 { font-size: clamp(4rem, 11.5vw, 9.4rem); font-weight: 900; line-height: .84; letter-spacing: -0.01em; }
-.hero-copy { display: grid; gap: 30px; }
-.hero-copy > p { font-size: clamp(1.15rem, 1.8vw, 1.38rem); color: var(--soft); max-width: 31em; }
-.hero-copy > p b { color: var(--ink); font-weight: 600; }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
-.actions .link { font-weight: 700; }
-@media (max-width: 940px) { .hero .wrap { grid-template-columns: 1fr; } }
-
-/* the job-site placard */
-.placard { background: #F3F1EA; color: #111; border-radius: 6px; transform: rotate(2.2deg); box-shadow: 0 30px 60px -30px rgba(0,0,0,.9), 0 0 0 3px #111 inset; position: relative; padding: 0 0 18px; justify-self: center; width: min(380px, 100%); }
-.placard::before, .placard::after { content: ""; position: absolute; top: 12px; width: 9px; height: 9px; border-radius: 50%; background: #8B887F; box-shadow: 0 0 0 2px #111 inset; }
-.placard::before { left: 12px; } .placard::after { right: 12px; }
-.placard-head { background: var(--hi); border-bottom: 3px solid #111; border-radius: 6px 6px 0 0; padding: 30px 22px 14px; box-shadow: 0 0 0 3px #111 inset; }
-.placard-head b { display: block; font: 900 2.3rem/.9 var(--f-display); text-transform: uppercase; }
-.placard-head span { font: 600 .72rem/1.4 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
-.placard dl { margin: 0; padding: 6px 22px 0; display: grid; grid-template-columns: auto 1fr; }
-.placard dt, .placard dd { margin: 0; padding: 11px 0; border-bottom: 1.5px dashed #B5B1A6; }
-.placard dt { font: 600 .7rem/1.6 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: #5F5C55; padding-right: 16px; }
-.placard dd { font: 800 1.3rem/1.15 var(--f-display); text-transform: uppercase; text-align: right; }
-.placard dl > :nth-last-child(-n+2) { border-bottom: 0; }
-.stars { color: #C98A00; letter-spacing: 2px; }
-
-/* ticker */
-.ticker-clip { overflow: hidden; padding-block: 14px; margin-block: -14px; position: relative; z-index: 2; }
-.ticker { background: var(--hi); color: var(--on-hi); overflow: hidden; transform: rotate(-1.2deg); margin-inline: -2%; border-block: 3px solid var(--bg); }
-.ticker-track { display: flex; width: max-content; animation: ticker 36s linear infinite; }
-.ticker-track span { font: 900 clamp(1.3rem, 2.6vw, 1.9rem)/1 var(--f-display); text-transform: uppercase; padding: 16px 0; white-space: nowrap; }
-.ticker-track span::after { content: "★"; margin-inline: 26px; font-size: .8em; }
-@keyframes ticker { to { transform: translateX(-50%); } }
-
-/* the cross-section story */
-.story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); gap: clamp(32px, 5vw, 80px); align-items: start; }
-.fig-wrap { position: sticky; top: calc(var(--head) + 24px); z-index: 5; }
-.sheet { background: #EEEAE1; border-radius: 14px; overflow: hidden; box-shadow: 0 40px 80px -40px rgba(0,0,0,.9); }
-.sheet svg { display: block; width: 100%; height: auto; }
-.sheet-foot { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-top: 2px solid #111; color: #111; background: #E3DED2; }
-.sheet-foot .n { font: 900 1.7rem/1 var(--f-display); }
-.sheet-foot .t { font: 600 .75rem/1.25 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; flex: 1; }
-.sheet-foot .bar-track { width: 80px; height: 6px; border-radius: 3px; background: #C9C3B5; overflow: hidden; }
-.sheet-foot .bar-fill { display: block; height: 100%; width: 100%; background: #111; transform-origin: left; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
-#fig [data-s] { transition: opacity .45s ease; }
-#fig .off { opacity: 0; }
-#fig .tag rect { fill: var(--hi); stroke: #111; stroke-width: 2; }
-#fig .tag text { font: 600 16px var(--f-mono); letter-spacing: .04em; fill: #111; }
-#fig .tag line { stroke: #111; stroke-width: 2; }
-#fig .lbl { font: 600 13px var(--f-mono); letter-spacing: .08em; fill: #8A857A; }
-.steps { display: grid; padding-bottom: 20vh; }
-.step { display: grid; gap: 14px; align-content: center; min-height: 72vh; padding-block: 40px; transition: opacity .35s; }
-.js .step { opacity: .28; }
-.js .step.on { opacity: 1; }
-.step .num { font: 900 clamp(3.4rem, 6vw, 5rem)/.8 var(--f-display); color: var(--hi); }
-.step h3 { font-size: clamp(2rem, 3.6vw, 2.9rem); }
-.step p { font-size: 1.15rem; color: var(--soft); max-width: 32em; }
-.honest { margin-top: 8px; padding: 22px 24px; border-left: 4px solid var(--hi); background: var(--bg); font-size: 1.1rem; max-width: 34em; }
-@media (max-width: 900px) {
-  .story-grid { grid-template-columns: 1fr; gap: 0; }
-  .fig-wrap { top: var(--head); order: -1; margin-inline: -20px; padding: 10px 20px 12px; background: var(--bg-2); }
-  .sheet svg { max-height: 40vh; }
-  .step { min-height: 62vh; align-content: start; padding-block: 28px 40px; }
-  .step .num { font-size: 3rem; }
-}
-
-/* services */
-.svcs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 6vw, 80px); counter-reset: s; }
-.svc { counter-increment: s; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; padding-block: 26px; border-top: 2px solid var(--line); transition: border-color .2s; }
-.svc:hover { border-color: var(--hi); }
-.svc::before { content: counter(s, decimal-leading-zero); grid-row: span 2; font: 900 2.2rem/.9 var(--f-display); color: transparent; -webkit-text-stroke: 1.5px var(--hi); }
-.svc p { color: var(--soft); }
-@media (max-width: 760px) { .svcs { grid-template-columns: 1fr; } }
-
-/* subsidy calculator */
-.calc { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
-.items { display: grid; gap: 10px; }
-.item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding: 16px 18px; border-radius: 14px; background: var(--bg); border: 2px solid var(--line); transition: border-color .2s; }
-.item:has(input[type=checkbox]:checked) { border-color: var(--hi); }
-.item input[type=checkbox] { width: 24px; height: 24px; accent-color: var(--hi); margin: 0; }
-.item label { font-weight: 600; cursor: pointer; }
-.item .max { font: 600 .78rem var(--f-mono); color: var(--soft); text-align: right; white-space: nowrap; }
-.item .quote { grid-column: 2 / 4; display: flex; align-items: center; gap: 10px; font-size: .9rem; color: var(--soft); }
-.item .quote label { white-space: nowrap; }
-.item .quote input { width: 104px; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--bg-2); color: var(--ink); font: 500 .95rem var(--f-mono); }
-.item .quote output { margin-left: auto; font: 600 .95rem var(--f-mono); color: var(--hi); white-space: nowrap; }
-@media (max-width: 480px) { .item .quote { flex-wrap: wrap; } }
-.result { position: sticky; top: calc(var(--head) + 24px); display: grid; gap: 14px; padding: clamp(28px, 4vw, 40px); border-radius: 22px; background: var(--hi); color: var(--on-hi); transform: rotate(1.2deg); }
-.result .big { font: 900 clamp(4.4rem, 10vw, 7rem)/.82 var(--f-display); font-variant-numeric: tabular-nums; }
-.result p { font-weight: 600; }
-.result ul { margin: 6px 0 0; padding: 14px 0 0 18px; border-top: 2px solid rgba(15,16,17,.25); display: grid; gap: 6px; font-size: .95rem; }
-.result .src { font-size: .85rem; font-weight: 500; }
-.result a:hover { color: var(--on-hi); }
-@media (max-width: 900px) { .calc { grid-template-columns: 1fr; } .result { position: static; transform: none; } }
-
-/* faq */
-.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px clamp(32px, 6vw, 80px); }
-.faq div { display: grid; gap: 10px; align-content: start; }
-.faq h3 { font-size: 1.6rem; }
-.faq p { color: var(--soft); }
-@media (max-width: 760px) { .faq { grid-template-columns: 1fr; gap: 34px; } }
-
-/* contact */
-.contact { position: relative; padding-top: 16px; }
-.contact::before { content: ""; position: absolute; inset: 0 0 auto; height: 16px; background: repeating-linear-gradient(-45deg, var(--hi) 0 14px, var(--bg) 14px 28px); }
-.contact .wrap { display: grid; gap: 22px; padding-block: clamp(72px, 10vw, 130px); }
-.contact h2 { font-size: clamp(3rem, 8vw, 6.4rem); }
-.contact p { font-size: 1.22rem; color: var(--soft); }
-.contact .tel { font: 900 clamp(3.6rem, 13vw, 10rem)/.85 var(--f-display); color: var(--hi); text-decoration: none; justify-self: start; font-variant-numeric: tabular-nums; }
-.contact .tel:hover { color: var(--ink); }
-footer { border-top: 1px solid var(--line); padding-block: 28px 40px; font-size: .92rem; color: var(--soft); }
-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
-
-/* phone bar */
-.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(15, 16, 17, .94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line);
-  padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
-.dock .btn { justify-content: center; padding: 14px; }
-.dock .btn:hover { transform: none; }
-@media (min-width: 900px) { .dock { display: none; } body { padding-bottom: 0; } }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .ticker-track { animation: none; }
-  #fig [data-s], .step, .sheet-foot .bar-fill { transition: none; }
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -210,7 +23,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   <div class="wrap">
     <a class="logo" href="#main" aria-label="Wizards Waterproofing home">
       <span class="logo-mark" id="logo-mark" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 32 32"><path d="M16 3l3.4 7.9 8.6.7-6.5 5.7 2 8.4L16 21.2l-7.5 4.5 2-8.4L4 11.6l8.6-.7z" fill="#0F1011"/></svg>
+        <svg width="20" height="20" viewBox="0 0 32 32"><path d="M16 3l3.4 7.9 8.6.7-6.5 5.7 2 8.4L16 21.2l-7.5 4.5 2-8.4L4 11.6l8.6-.7z" fill="currentColor"/></svg>
       </span>
       <span><b>Wizards</b><small>Waterproofing</small></span>
     </a>
@@ -404,7 +217,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <p>Inside the basement, outside it, and under it.</p>
       </div>
       <div class="svcs">
-        <div class="svc"><h3>Exterior waterproofing</h3><p>Dig to the footing, seal the wall, new drainage and weeping tile. The full fix from the drawing above.</p></div>
+        <div class="svc big"><span class="svc-tag">The full fix</span><h3>Exterior waterproofing</h3><p>Dig to the footing, seal the wall, add a drainage board and new weeping tile. Every step is in the drawing above.</p><a class="svc-link" href="#how">See how it's done ↑</a></div>
         <div class="svc"><h3>Interior waterproofing</h3><p>A drain along the inside edge of the floor that carries water to a sump pump. No digging up the yard.</p></div>
         <div class="svc"><h3>Foundation crack repair</h3><p>Leaking cracks sealed so water stops coming through the wall.</p></div>
         <div class="svc"><h3>Sump pumps</h3><p>New pumps and replacements, so the water that collects gets pumped out before it floods.</p></div>
@@ -444,10 +257,22 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="wrap">
       <div class="title"><h2>Straight <span class="hl">answers.</span></h2></div>
       <div class="faq">
-        <div><h3>Inside or outside waterproofing?</h3><p>Outside seals the wall itself and is the most complete fix. Inside means no digging in the yard, and works well for water coming in where the floor meets the wall. Michael looks first and tells you which one your house needs.</p></div>
-        <div><h3>Is the estimate really free?</h3><p>Yes. He comes out, finds where the water is getting in, and gives you a price. No charge and no pressure.</p></div>
-        <div><h3>It only leaks in spring. Should I wait?</h3><p>Spring melt is when most basements leak, and when everyone calls at once. Fixing it in fall or winter means it's done before the next melt.</p></div>
-        <div><h3>Can I just text a photo?</h3><p>Yes. Text a photo of the wet spot to <span data-biz="phone">416-569-0776</span> and say when it leaks: after rain, in spring, or all the time.</p></div>
+        <div class="qa">
+          <h3 class="q"><span class="chip" aria-hidden="true">Q</span>Inside or outside waterproofing?</h3>
+          <p class="a"><span class="chip" aria-hidden="true">A</span><span>Outside seals the wall itself and is the most complete fix. Inside means no digging in the yard, and works well for water coming in where the floor meets the wall. Michael looks first and tells you which one your house needs.</span></p>
+        </div>
+        <div class="qa">
+          <h3 class="q"><span class="chip" aria-hidden="true">Q</span>Is the estimate really free?</h3>
+          <p class="a"><span class="chip" aria-hidden="true">A</span><span>Yes. He comes out, finds where the water is getting in, and gives you a price. No charge and no pressure.</span></p>
+        </div>
+        <div class="qa">
+          <h3 class="q"><span class="chip" aria-hidden="true">Q</span>It only leaks in spring. Should I wait?</h3>
+          <p class="a"><span class="chip" aria-hidden="true">A</span><span>Spring melt is when most basements leak, and when everyone calls at once. Fixing it in fall or winter means it's done before the next melt.</span></p>
+        </div>
+        <div class="qa">
+          <h3 class="q"><span class="chip" aria-hidden="true">Q</span>Can I just text a photo?</h3>
+          <p class="a"><span class="chip" aria-hidden="true">A</span><span>Yes. Text a photo of the wet spot to <a data-sms data-biz="phone" href="sms:+14165690776">416-569-0776</a> and say when it leaks: after rain, in spring, or all the time.</span></p>
+        </div>
       </div>
     </div>
   </section>
@@ -473,131 +298,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   <a class="btn btn-dark" data-sms href="sms:+14165690776">Text a photo</a>
 </nav>
 
-<script>
-// ===== Business info: change things here, not in the page =====
-var BIZ = {
-  owner: "Michael Papa",
-  phone: "416-569-0776",
-  years: 24,
-  base: "North York",
-  licenceNo: "T85-3954149",   // City of Toronto business licence, from his BBB profile. Check it's current.
-  logo: "",                   // put his logo file in this folder, then e.g. "logo.png"
-  services: ["Exterior waterproofing", "Interior waterproofing", "Foundation cracks", "Sump pumps", "Underpinning", "Renovations", "Landscaping"]
-};
-// ===============================================================
-
-// City of Toronto Basement Flooding Protection Subsidy, for work finished on or after Nov 12, 2025.
-// The City pays 80% of each paid invoice, up to the max. Source: toronto.ca, checked Oct 30, 2026.
-var REBATES = [
-  { name: "Sump pump, with alarm", max: 2250 },
-  { name: "Battery backup for the sump pump", max: 300 },
-  { name: "Backwater valve, with alarm", max: 1600 },
-  { name: "Second backwater valve", max: 1600 },
-  { name: "Cutting and capping the foundation drain", max: 400 },
-  { name: "Home plumbing assessment by a licensed plumber", max: 500 }
-];
-
-document.documentElement.classList.add("js");
-
-(function () {
-  var digits = BIZ.phone.replace(/\D/g, "");
-  var e164 = "+" + (digits.length === 10 ? "1" + digits : digits);
-  document.querySelectorAll("[data-biz]").forEach(function (el) { var v = BIZ[el.dataset.biz]; if (v != null) el.textContent = v; });
-  document.querySelectorAll("[data-tel]").forEach(function (a) { a.href = "tel:" + e164; });
-  document.querySelectorAll("[data-sms]").forEach(function (a) { a.href = "sms:" + e164; });
-  document.getElementById("yr").textContent = new Date().getFullYear();
-  if (BIZ.logo) { var mark = document.getElementById("logo-mark"); mark.innerHTML = ""; var img = new Image(); img.src = BIZ.logo; img.alt = ""; mark.appendChild(img); }
-
-  // ticker: the list twice, so it loops without a gap
-  var track = document.getElementById("ticker");
-  BIZ.services.concat(BIZ.services).forEach(function (s) { var el = document.createElement("span"); el.textContent = s; track.appendChild(el); });
-
-  // ===== cross-section: yellow callouts are sized to their text =====
-  var fig = document.getElementById("fig");
-  var NS = "http://www.w3.org/2000/svg";
-  function sizeTags() {
-    fig.querySelectorAll(".tag").forEach(function (g) {
-      var t = g.querySelector("text"), r = g.querySelector("rect");
-      if (!r) { r = document.createElementNS(NS, "rect"); r.setAttribute("rx", 4); g.insertBefore(r, t); }
-      var w = t.getComputedTextLength() + 20, y = +g.dataset.y;
-      var x = g.dataset.end ? +g.dataset.end - w : +g.dataset.x;
-      r.setAttribute("x", x); r.setAttribute("y", y); r.setAttribute("width", w); r.setAttribute("height", 26);
-      t.setAttribute("x", x + 10); t.setAttribute("y", y + 18.5);
-    });
-  }
-  sizeTags();
-  if (document.fonts) document.fonts.ready.then(sizeTags);
-
-  // ===== cross-section: which step is showing =====
-  var steps = [].slice.call(document.querySelectorAll(".step"));
-  var parts = [].slice.call(fig.querySelectorAll("[data-s]"));
-  var figN = document.getElementById("fig-n"), figT = document.getElementById("fig-t"), bar = document.getElementById("fig-bar");
-  function inStage(spec, n) {
-    return spec.split(",").some(function (p) { var ab = p.split("-").map(Number); return n >= ab[0] && n <= (ab.length > 1 ? ab[1] : ab[0]); });
-  }
-  var current = -1;
-  function show(n) {
-    if (n === current) return;
-    current = n;
-    parts.forEach(function (el) { el.classList.toggle("off", !inStage(el.dataset.s, n)); });
-    steps.forEach(function (s, i) { s.classList.toggle("on", i === n); });
-    figN.textContent = "0" + (n + 1);
-    figT.textContent = steps[n].querySelector("h3").textContent;
-    bar.style.transform = "scaleX(" + (n + 1) / steps.length + ")";
-  }
-  // A step is current once its top passes a line on the screen: the middle on wide screens,
-  // lower down on phones, where the drawing sits at the top.
-  var wide = matchMedia("(min-width: 901px)"), ticking = false;
-  function pick() {
-    ticking = false;
-    var line = innerHeight * (wide.matches ? 0.55 : 0.78), n = 0;
-    steps.forEach(function (s, i) { if (s.getBoundingClientRect().top < line) n = i; });
-    show(n);
-  }
-  addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }, { passive: true });
-  addEventListener("resize", pick);
-  pick();
-
-  // ===== City rebate calculator =====
-  var list = document.getElementById("items");
-  var money = function (n) { return "$" + Math.round(n).toLocaleString("en-CA"); };
-  REBATES.forEach(function (r, i) {
-    var row = document.createElement("div");
-    row.className = "item";
-    row.innerHTML =
-      '<input type="checkbox" id="rb' + i + '">' +
-      '<label for="rb' + i + '"></label>' +
-      '<span class="max">max ' + money(r.max) + '</span>' +
-      '<span class="quote" hidden><label for="rq' + i + '">Your quote $</label><input id="rq' + i + '" type="number" min="0" step="50" inputmode="numeric" placeholder="optional"><output></output></span>';
-    row.querySelector("label").textContent = r.name;
-    list.appendChild(row);
-  });
-  // The City pays for a second valve only alongside a first one
-  var valve1 = document.getElementById("rb2"), valve2 = document.getElementById("rb3");
-  valve1.addEventListener("change", function () { if (!valve1.checked) valve2.checked = false; });
-  valve2.addEventListener("change", function () { if (valve2.checked) valve1.checked = true; });
-  function update() {
-    var total = 0, picked = 0, allQuoted = true;
-    REBATES.forEach(function (r, i) {
-      var on = document.getElementById("rb" + i).checked;
-      var q = document.getElementById("rq" + i), box = q.parentNode, out = box.querySelector("output");
-      box.hidden = !on;
-      if (!on) return;
-      picked++;
-      var cost = parseFloat(q.value);
-      var back = cost > 0 ? Math.min(cost * 0.8, r.max) : r.max;
-      if (!(cost > 0)) allQuoted = false;
-      out.textContent = cost > 0 ? money(back) + " back" : "";
-      total += back;
-    });
-    document.getElementById("total").textContent = money(total);
-    document.getElementById("total-note").textContent = !picked ? "Tick an item to start."
-      : allQuoted ? "That's 80% of your quotes, within the City's limits."
-      : "That's the most the City pays for what you ticked. Add your quotes for a closer number.";
-  }
-  document.getElementById("calc").addEventListener("input", update);
-  update();
-})();
-</script>
+<script src="site.js"></script>
 </body>
 </html>
