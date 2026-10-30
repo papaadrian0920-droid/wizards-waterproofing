@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -217,13 +217,13 @@
         <p>Inside the basement, outside it, and under it.</p>
       </div>
       <div class="svcs">
-        <div class="svc big"><span class="svc-tag">The full fix</span><h3>Exterior waterproofing</h3><p>Dig to the footing, seal the wall, add a drainage board and new weeping tile. Every step is in the drawing above.</p><a class="svc-link" href="#how">See how it's done ↑</a></div>
-        <div class="svc"><h3>Interior waterproofing</h3><p>A drain along the inside edge of the floor that carries water to a sump pump. No digging up the yard.</p></div>
-        <div class="svc"><h3>Foundation crack repair</h3><p>Leaking cracks sealed so water stops coming through the wall.</p></div>
-        <div class="svc"><h3>Sump pumps</h3><p>New pumps and replacements, so the water that collects gets pumped out before it floods.</p></div>
-        <div class="svc"><h3>Underpinning</h3><p>Lowering the basement floor for real ceiling height.</p></div>
+        <div class="svc big"><span class="svc-tag">The full fix</span><h3>Exterior waterproofing</h3><p>Dig to the footing, seal the wall, add a drainage board and new weeping tile. Every step is in the drawing above.</p><a class="svc-link" href="#how">See how it gets fixed ↑</a></div>
+        <div class="svc" data-fix="interior"><h3>Interior waterproofing</h3><p>A drain along the inside edge of the floor that carries water to a sump pump. No digging up the yard.</p></div>
+        <div class="svc" data-fix="crack"><h3>Foundation crack repair</h3><p>Leaking cracks sealed so water stops coming through the wall.</p></div>
+        <div class="svc" data-fix="sump"><h3>Sump pumps</h3><p>New pumps and replacements, so the water that collects gets pumped out before it floods.</p></div>
+        <div class="svc" data-fix="underpin"><h3>Underpinning</h3><p>Lowering the basement floor for real ceiling height.</p></div>
         <div class="svc"><h3>Renovations</h3><p>Once the basement is dry, finishing it into real living space.</p></div>
-        <div class="svc"><h3>Landscaping and grading</h3><p>Sloping the ground away from the house, so rain runs off instead of soaking down by the wall.</p></div>
+        <div class="svc" data-fix="grading"><h3>Landscaping and grading</h3><p>Sloping the ground away from the house, so rain runs off instead of soaking down by the wall.</p></div>
       </div>
     </div>
   </section>
@@ -298,6 +298,7 @@
   <a class="btn btn-dark" data-sms href="sms:+14165690776">Text a photo</a>
 </nav>
 
-<script src="site.js"></script>
+<script src="site.js?v=6"></script>
+<script src="fixes.js?v=6"></script>
 </body>
 </html>

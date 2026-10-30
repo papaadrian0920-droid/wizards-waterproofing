@@ -125,12 +125,12 @@ a:hover { color: var(--hi); }
 .sheet-foot .t { font: 600 .75rem/1.25 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; flex: 1; }
 .sheet-foot .bar-track { width: 80px; height: 6px; border-radius: 3px; background: #C9C3B5; overflow: hidden; }
 .sheet-foot .bar-fill { display: block; height: 100%; width: 100%; background: #111; transform-origin: left; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
-#fig [data-s] { transition: opacity .45s ease; }
-#fig .off { opacity: 0; }
-#fig .tag rect { fill: var(--tag); stroke: #111; stroke-width: 2; }
-#fig .tag text { font: 600 16px var(--f-mono); letter-spacing: .04em; fill: #111; }
-#fig .tag line { stroke: #111; stroke-width: 2; }
-#fig .lbl { font: 600 13px var(--f-mono); letter-spacing: .08em; fill: #8A857A; }
+.sheet [data-s] { transition: opacity .45s ease; }
+.sheet .off { opacity: 0; }
+.sheet .tag rect { fill: var(--tag); stroke: #111; stroke-width: 2; }
+.sheet .tag text { font: 600 16px var(--f-mono); letter-spacing: .04em; fill: #111; }
+.sheet .tag line { stroke: #111; stroke-width: 2; }
+.sheet .lbl { font: 600 13px var(--f-mono); letter-spacing: .08em; fill: #8A857A; }
 .steps { display: grid; padding-bottom: 20vh; }
 .step { display: grid; gap: 14px; align-content: center; min-height: 72vh; padding-block: 40px; transition: opacity .35s; }
 .js .step { opacity: .28; }
@@ -162,6 +162,10 @@ a:hover { color: var(--hi); }
 .svc-tag { align-self: flex-start; font: 600 .72rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; background: var(--on-hi); color: var(--hi); padding: 6px 10px; border-radius: 6px; }
 .svc-link { margin-top: auto; padding-top: 8px; font-weight: 700; }
 .svc-link:hover { color: var(--on-hi); }
+.svc-more { margin-top: auto; align-self: flex-start; display: inline-flex; gap: 8px; padding: 12px 0 0; border: 0; background: none; color: var(--hi); font: 700 1rem var(--f-body); cursor: pointer; }
+.svc-more span { transition: transform .2s; }
+.svc-more:hover span { transform: translateX(4px); }
+.svc-more:hover { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 1000px) { .svcs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .svcs { grid-template-columns: 1fr; } .svc.big { grid-column: auto; } }
 
@@ -198,6 +202,41 @@ a:hover { color: var(--hi); }
 .qa .a a { color: var(--ink); font-weight: 600; }
 @media (max-width: 760px) { .faq { grid-template-columns: 1fr; } .qa { padding: 22px 20px 24px; } }
 
+/* "how it gets fixed" pop-up slideshow */
+.locked, .locked body { overflow: hidden; }
+.fixer { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 20px; background: rgba(0, 0, 0, .65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.fixer-box { width: min(1100px, 100%); max-height: calc(100dvh - 40px); overflow: auto; display: grid; gap: 22px; padding: clamp(20px, 3vw, 34px); border-radius: 24px; background: var(--bg-2); border: 1.5px solid var(--line); box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .8); }
+.fixer-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.fixer-head .mono { color: var(--hi); font: 600 .78rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; }
+.fixer-head h3 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); line-height: .9; margin-top: 8px; }
+.fixer-x { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--bg); color: var(--ink); font-size: 1.7rem; line-height: 1; cursor: pointer; box-shadow: inset 0 0 0 2px var(--line); transition: box-shadow .2s; }
+.fixer-x:hover { box-shadow: inset 0 0 0 2px var(--hi); }
+.fixer-body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(20px, 3.5vw, 44px); align-items: center; }
+.fixer .sheet { margin: 0; }
+.fixer.no-fade .sheet [data-s] { transition: none; }
+.fixer-fig svg { display: block; width: 100%; height: auto; }
+.fixer-text { display: grid; gap: 12px; align-content: center; }
+.fixer-text .num { font: 900 clamp(3rem, 5vw, 4.4rem)/.8 var(--f-display); color: var(--hi); }
+.fixer-text h4 { margin: 0; font: 900 clamp(1.9rem, 3vw, 2.6rem)/.95 var(--f-display); text-transform: uppercase; }
+.fixer-text p { color: var(--soft); font-size: 1.12rem; }
+.fixer-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fixer-nav .btn { padding: 14px 22px; white-space: nowrap; }
+.fixer-nav .btn[disabled] { opacity: .35; cursor: default; box-shadow: inset 0 0 0 2px var(--line); }
+.fixer-nav .btn[disabled]:hover { transform: none; }
+.dots { display: flex; gap: 8px; }
+.dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 5px; background: var(--line); cursor: pointer; transition: width .25s, background .25s; }
+.dots button[aria-current="step"] { width: 28px; background: var(--hi); }
+.fixer-note { color: var(--soft); font-size: .95rem; border-left: 3px solid var(--hi); padding-left: 14px; }
+@media (max-width: 760px) {
+  .fixer { padding: 0; }
+  .fixer-box { min-height: 100dvh; max-height: 100dvh; border-radius: 0; border: 0; gap: 16px; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); align-content: start; }
+  .fixer-body { grid-template-columns: 1fr; gap: 16px; }
+  .fixer-text .num { display: none; }
+  .fixer-nav .btn { padding: 13px 16px; font-size: .98rem; }
+  .fixer-nav { flex-wrap: wrap; }
+  .fixer-nav [data-call] { flex: 1 1 100%; order: 3; justify-content: center; }
+}
+
 /* contact */
 .contact { position: relative; padding-top: 16px; }
 .contact::before { content: ""; position: absolute; inset: 0 0 auto; height: 16px; background: repeating-linear-gradient(-45deg, var(--hi) 0 14px, var(--bg) 14px 28px); }
@@ -219,5 +258,5 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ticker-track { animation: none; }
-  #fig [data-s], .step, .sheet-foot .bar-fill { transition: none; }
+  .sheet [data-s], .step, .sheet-foot .bar-fill { transition: none; }
 }

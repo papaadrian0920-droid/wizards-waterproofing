@@ -39,8 +39,8 @@ document.documentElement.classList.add("js");
   // ===== cross-section: yellow callouts are sized to their text =====
   var fig = document.getElementById("fig");
   var NS = "http://www.w3.org/2000/svg";
-  function sizeTags() {
-    fig.querySelectorAll(".tag").forEach(function (g) {
+  function sizeTags(svg) {
+    (svg || fig).querySelectorAll(".tag").forEach(function (g) {
       var t = g.querySelector("text"), r = g.querySelector("rect");
       if (!r) { r = document.createElementNS(NS, "rect"); r.setAttribute("rx", 4); g.insertBefore(r, t); }
       var w = t.getComputedTextLength() + 20, y = +g.dataset.y;
@@ -50,7 +50,7 @@ document.documentElement.classList.add("js");
     });
   }
   sizeTags();
-  if (document.fonts) document.fonts.ready.then(sizeTags);
+  if (document.fonts) document.fonts.ready.then(function () { sizeTags(); });
 
   // ===== cross-section: which step is showing =====
   var steps = [].slice.call(document.querySelectorAll(".step"));
@@ -59,6 +59,8 @@ document.documentElement.classList.add("js");
   function inStage(spec, n) {
     return spec.split(",").some(function (p) { var ab = p.split("-").map(Number); return n >= ab[0] && n <= (ab.length > 1 ? ab[1] : ab[0]); });
   }
+  // fixes.js uses these for the "how it gets fixed" slideshows
+  window.WZ = { sizeTags: sizeTags, inStage: inStage, phone: e164 };
   var current = -1;
   function show(n) {
     if (n === current) return;
