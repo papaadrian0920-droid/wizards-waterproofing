@@ -90,6 +90,8 @@ main { view-transition-name: page; }
 .menu-open .menu-btn span::after { transform: translateY(-6px) rotate(-45deg); }
 .sheet-menu { position: fixed; inset: var(--head) 0 0; z-index: 49; background: var(--bg); padding: 28px 20px 40px; display: flex; flex-direction: column; gap: 6px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .4s var(--ease); }
 .menu-open .sheet-menu { opacity: 1; transform: none; pointer-events: auto; }
+.menu-open { overflow: hidden; }
+.menu-open .dock { display: none; }
 .sheet-menu a.big { font: 900 clamp(3rem, 15vw, 4.6rem)/1 var(--f-display); text-transform: uppercase; text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
 .sheet-menu a.big small { font: 600 .8rem var(--f-mono); color: var(--dim); }
 .sheet-menu a.big[aria-current="page"] { color: var(--hi); }
