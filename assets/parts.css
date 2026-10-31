@@ -114,14 +114,14 @@
 .storm-head p { color: var(--soft); font-size: 1.1rem; max-width: 33em; }
 .storm-fig { margin: 0; border-radius: 18px; overflow: hidden; border: 1.5px solid var(--line); background: var(--bg-2); }
 .storm-fig svg { display: block; width: 100%; height: auto; }
-.storm .sky-a { stop-color: var(--bg); }
-.storm .sky-b { stop-color: color-mix(in srgb, var(--bg-2) 70%, #4A5A70); }
-.storm .st-far { fill: rgba(255, 255, 255, .05); }
-.storm .st-cloud { fill: color-mix(in srgb, var(--bg-2) 80%, #8090A8); opacity: .9; animation: wz-drift 38s ease-in-out infinite alternate; }
-.storm .st-cloud-2 { animation-duration: 30s; animation-direction: alternate-reverse; }
-.storm .tag rect { fill: var(--tag); stroke: #111; stroke-width: 2; }
-.storm .tag text { font: 600 13px var(--f-mono); letter-spacing: .05em; fill: #111; }
-.storm .tag line { stroke: var(--tag); stroke-width: 2; }
+.storm-fig .sky-a { stop-color: var(--bg); }
+.storm-fig .sky-b { stop-color: color-mix(in srgb, var(--bg-2) 70%, #4A5A70); }
+.storm-fig .st-far { fill: rgba(255, 255, 255, .05); }
+.storm-fig .st-cloud { fill: color-mix(in srgb, var(--bg-2) 80%, #8090A8); opacity: .9; animation: wz-drift 38s ease-in-out infinite alternate; }
+.storm-fig .st-cloud-2 { animation-duration: 30s; animation-direction: alternate-reverse; }
+.storm-fig .tag rect { fill: var(--tag); stroke: #111; stroke-width: 2; }
+.storm-fig .tag text { font: 600 13px var(--f-mono); letter-spacing: .05em; fill: #111; }
+.storm-fig .tag line { stroke: var(--tag); stroke-width: 2; }
 .st-drop { stroke: #A9D2FA; stroke-width: 1.4; stroke-linecap: round; opacity: .7; animation: wz-fall 1s linear infinite; }
 .st-splash { fill: #A9D2FA; transform-box: fill-box; transform-origin: center; opacity: 0; animation: wz-splash 1s linear infinite; }
 .st-seep { fill: #2F8FE0; opacity: 0; animation: wz-seep 4s linear infinite; }
@@ -159,8 +159,8 @@
 @keyframes wz-flash { 0%, 5%, 100% { opacity: 0; } 1% { opacity: .16; } 2% { opacity: 0; } 3% { opacity: .1; } }
 .storm-fig.paused * { animation-play-state: paused !important; }
 @media (max-width: 700px) {
-  .storm .wide-only { display: none; }
-  .storm .tag text { font-size: 17px; }
+  .storm-fig .wide-only { display: none; }
+  .storm-fig .tag text { font-size: 17px; }
   .storm-fig { margin-inline: -8px; }
 }
 
