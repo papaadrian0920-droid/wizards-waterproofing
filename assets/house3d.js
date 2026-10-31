@@ -1,11 +1,7 @@
 // The 3D intro on the home page: a slice of ground with a house on it, cut open at the front
 // so you can see the basement, the footing, the weeping tile and the sump pump at work in a storm.
 // Units are roughly metres. The cut is the plane z = 0; everything sits behind it.
-import * as THREE from "three";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
-import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
 const host = document.querySelector(".hero3d");
 const pinsBox = host.querySelector(".pins");
@@ -82,20 +78,6 @@ function shingles() {
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }
-function siding() {
-  const c = document.createElement("canvas");
-  c.width = c.height = 128;
-  const g = c.getContext("2d");
-  g.fillStyle = "#7E8C99"; g.fillRect(0, 0, 128, 128);
-  for (let r = 0; r < 8; r++) {
-    g.fillStyle = "#5E6B77"; g.fillRect(0, r * 16 + 13, 128, 3);
-    g.fillStyle = "#9AA7B3"; g.fillRect(0, r * 16, 128, 2);
-  }
-  const t = new THREE.CanvasTexture(c);
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
 const TEX = {
   grass: speckle("#3F6B2E", ["#4E8238", "#335A25", "#5C9142"], 2600),
   top: speckle("#4A3324", ["#5C4230", "#3A281C", "#6B4E38"]),
@@ -105,8 +87,7 @@ const TEX = {
   stone: speckle("#77756F", ["#A3A19A", "#5A5853", "#C4C2BA", "#8E8C86"], 4200),
   conc: speckle("#9C9991", ["#88857E", "#B0ADA5", "#7A776F"], 900),
   brick: bricks(),
-  shing: shingles(),
-  siding: siding()
+  shing: shingles()
 };
 function tex(name, w, h, extra = {}) {
   const t = TEX[name].clone();
@@ -121,14 +102,14 @@ const M = {
   wood: plain("#8A6A45"), woodDark: plain("#5A3D2C"), plaster: plain("#DCC79E"), plasterUp: plain("#D6C095"),
   white: plain("#EEEAE2"), alu: plain("#A3A5AA", { metalness: 0.6, roughness: 0.4 }), pvc: plain("#E2DED4", { roughness: 0.5 }),
   tile: plain("#1E1E1E", { roughness: 0.6 }), liner: plain("#202224"), membrane: plain("#111111", { roughness: 0.5 }),
-  dimple: plain("#3A3B3E"), insul: plain("#A9877D", { roughness: 1 }), sofa: plain("#5E3C30"), sofaB: plain("#3F4F5E"),
+  dimple: plain("#3A3B3E"), insul: plain("#D88E8E", { roughness: 1 }), sofa: plain("#5E3C30"), sofaB: plain("#3F4F5E"),
   rug: plain("#8A3F33"), rugB: plain("#7A4B3C"), blanket: plain("#3E6FA8"), cat: plain("#141416", { roughness: 0.5 }),
   leaf: plain("#24452D", { flatShading: true }), leaf2: plain("#2E5838", { flatShading: true }), bark: plain("#3A281C"),
   fence: plain("#5E4D3E"), pump: plain("#D8B23A", { roughness: 0.5 }), valve: plain("#2E2F33", { roughness: 0.5 }),
-  water: new THREE.MeshStandardMaterial({ color: "#2F8FE0", emissive: "#1C6FC0", emissiveIntensity: 0.9, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.88 }),
-  drop: glow("#3FA2FF", 2.6),
+  water: new THREE.MeshStandardMaterial({ color: "#2F8FE0", emissive: "#1C6FC0", emissiveIntensity: 0.6, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.88 }),
+  drop: new THREE.MeshBasicMaterial({ color: "#5FB0F5" }),
   winWarm: glow("#FFCF7A", 1.4), winNight: glow("#2A4466", 0.35), shade: glow("#FFE2A6", 1.6),
-  tv: glow("#8EC5FF", 1.2), ledOn: glow("#47E36B", 3), ledOff: plain("#5A1E1E"), bulb: glow("#FFE9B0", 1.1),
+  tv: glow("#8EC5FF", 1.2), ledOn: glow("#47E36B", 3), ledOff: plain("#5A1E1E"), bulb: glow("#FFE9B0", 3),
   art: plain("#2F8FE0"), artSun: plain("#E8C547")
 };
 
@@ -338,54 +319,6 @@ for (const z of [-0.6, -1.9, -3.2]) for (const s of [-1, 1]) {
 slab(2.0, 2.6, 6.6, 8.9, -3.4, -2.8, brickM, gRoof);
 slab(1.9, 2.7, 8.9, 9.06, -3.5, -2.7, plain("#55565B"), gRoof);
 
-// ---------- the finishing touches: trim, window frames, siding, a side door, a walkway, grass ----------
-const trim = plain("#EDEAE2", { roughness: 0.55 });
-const sillM = plain("#BDB8AC");
-// white frames with a cross in the middle and a stone sill, on the outside of a side wall
-function frameOn(side, y0, y1, z0, z1) {
-  const x0 = side < 0 ? -4.08 : 4.0, x1 = side < 0 ? -4.0 : 4.08, t = 0.09;
-  slab(x0, x1, y1, y1 + t, z0 - t, z1 + t, trim, gHouse);
-  slab(x0, x1, y0 - t, y0, z0 - t, z1 + t, trim, gHouse);
-  slab(x0, x1, y0, y1, z0 - t, z0, trim, gHouse);
-  slab(x0, x1, y0, y1, z1, z1 + t, trim, gHouse);
-  slab(x0, x1, y0, y1, (z0 + z1) / 2 - 0.035, (z0 + z1) / 2 + 0.035, trim, gHouse);
-  slab(x0, x1, (y0 + y1) / 2 - 0.035, (y0 + y1) / 2 + 0.035, z0, z1, trim, gHouse);
-  slab(side < 0 ? -4.22 : 4.0, side < 0 ? -4.0 : 4.22, y0 - t - 0.07, y0 - t, z0 - t - 0.06, z1 + t + 0.06, sillM, gHouse);
-}
-frameOn(-1, 1.3, 2.4, -3.0, -1.6);
-frameOn(-1, 3.8, 4.9, -3.0, -1.6);
-frameOn(1, 3.8, 4.9, -3.0, -1.6);
-// siding on the upper floor (cut around the windows), with a white band where it meets the brick
-const sideM = (w, h, d) => tex("siding", Math.max(w, d), h * 2.2);
-for (const sx of [-1, 1]) {
-  const wall = sx < 0 ? [-4.035, -4.0, 3.1, 5.6, -4.5, 0] : [4.0, 4.035, 3.1, 5.6, -4.5, 0];
-  for (const b of subtract(wall, [-9, 9, 3.71, 4.99, -3.09, -1.51])) slab(...b, sideM, gHouse);
-  slab(sx < 0 ? -4.07 : 4.0, sx < 0 ? -4.0 : 4.07, 3.0, 3.12, -4.5, 0, trim, gHouse);
-  slab(sx < 0 ? -4.07 : 4.0, sx < 0 ? -4.0 : 4.07, 0.6, 5.6, -4.5, -4.38, trim, gHouse);
-}
-// a side door with a little roof, a porch light and concrete steps
-slab(4.0, 4.05, 0.62, 2.7, -3.75, -2.75, plain("#24433F", { roughness: 0.5 }), gHouse);
-slab(4.0, 4.09, 2.7, 2.8, -3.85, -2.65, trim, gHouse);
-slab(4.0, 4.09, 0.6, 2.7, -3.85, -3.75, trim, gHouse);
-slab(4.0, 4.09, 0.6, 2.7, -2.75, -2.65, trim, gHouse);
-slab(4.05, 4.07, 1.0, 2.4, -3.6, -2.9, glow("#FFCF7A", 0.5), gHouse);
-const knob = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 8), plain("#D8B23A", { metalness: 0.8, roughness: 0.3 }));
-knob.position.set(4.1, 1.6, -2.88); gHouse.add(knob);
-slab(4.0, 4.65, 2.95, 3.04, -4.0, -2.5, plain("#2A2C31"), gHouse);
-const porch = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), M.bulb);
-porch.position.set(4.1, 2.35, -2.42); gHouse.add(porch);
-const porchLight = new THREE.PointLight("#FFC98A", 0, 4.5, 2);
-porchLight.position.set(4.5, 2.3, -2.6); porchLight.userData.full = 7; world.add(porchLight);
-slab(4.0, 4.95, 0, 0.2, -3.95, -2.55, concM, gHouse);
-slab(4.0, 4.65, 0.2, 0.4, -3.95, -2.55, concM, gHouse);
-slab(4.0, 4.35, 0.4, 0.6, -3.95, -2.55, concM, gHouse);
-// crisp white trim along the cut edge of the roof
-for (const s of [-1, 1]) {
-  const rake = new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(4.6, 2.65) + 0.3, 0.16, 0.08), trim);
-  rake.position.set(s * 2.3, 6.98, 0.04); rake.rotation.z = -s * Math.atan2(2.65, 4.6);
-  gRoof.add(rake);
-}
-
 // ---------- yard: downspout, tree, fence, streetlamp ----------
 const gYard = stage(0, 1.55, 0.7);
 pipe([4.57, 5.42, -0.25], [4.15, 5.0, -0.25], 0.075, M.alu, gYard);
@@ -399,7 +332,7 @@ for (const [x, y, z, r, m] of [[0, 3.4, 0, 1.55, M.leaf], [-0.8, 2.7, 0.5, 1.1, 
 }
 tree.position.set(-6.8, 0, -5.0);
 gYard.add(tree);
-for (const [x, z, r] of [[-5.3, -3.4, 0.5], [-5.6, -2.6, 0.38], [5.7, -4.7, 0.45]]) {
+for (const [x, z, r] of [[-5.3, -3.4, 0.5], [-5.6, -2.6, 0.38], [5.4, -3.8, 0.45]]) {
   const b = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 1), M.leaf2); b.position.set(x, r * 0.75, z); b.castShadow = !small; gYard.add(b);
 }
 for (let x = -8.8; x <= 8.81; x += 1.6) slab(x - 0.06, x + 0.06, 0, 1.2, -6.92, -6.8, M.fence, gYard);
@@ -408,31 +341,6 @@ slab(-8.8, 8.8, 0.35, 0.45, -6.9, -6.82, M.fence, gYard);
 pipe([7.6, 0, -5.8], [7.6, 4.6, -5.8], 0.07, plain("#3A3C40"), gYard);
 pipe([7.6, 4.6, -5.8], [7.0, 4.75, -5.8], 0.05, plain("#3A3C40"), gYard);
 const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 10), M.bulb); bulb.position.set(6.95, 4.62, -5.8); gYard.add(bulb);
-for (let x = 5.05; x < 8.7; x += 0.62) slab(x, x + 0.52, 0, 0.045, -3.5, -2.95, concM, gYard);
-// puddles: dark and shiny, so the lamps catch in them
-const puddleM = new THREE.MeshStandardMaterial({ color: "#152230", roughness: 0.04, metalness: 0.7 });
-for (const [x, z, r] of [[-7.4, -2.2, 0.7], [-2.6, -5.9, 0.5], [6.2, -5.0, 0.6], [8.2, -1.6, 0.45]]) {
-  const p = new THREE.Mesh(new THREE.CircleGeometry(r, 28), puddleM);
-  p.rotation.x = -Math.PI / 2; p.scale.set(1, 0.7, 1); p.position.set(x, 0.012, z); p.receiveShadow = true; gYard.add(p);
-}
-// grass: lots of little blades, each a slightly different green
-const blades = new THREE.InstancedMesh(new THREE.ConeGeometry(0.035, 0.26, 3).translate(0, 0.13, 0), plain("#FFFFFF", { roughness: 0.9 }), small ? 450 : 1400);
-{
-  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), sc = new THREE.Vector3(), at = new THREE.Vector3(), col = new THREE.Color();
-  let n = 0;
-  while (n < blades.count) {
-    const x = THREE.MathUtils.randFloat(-8.95, 8.95), z = THREE.MathUtils.randFloat(-6.75, -0.06);
-    if (x > -4.15 && x < 4.15 && z > -4.66) continue;          // the house
-    if (x > 3.95 && z > -4.05 && z < -2.45) continue;          // steps and walkway
-    if (x > 4.1 && x < 7.1 && z > -0.45) continue;             // downspout extension
-    e.set(THREE.MathUtils.randFloat(-0.3, 0.3), Math.random() * 6.3, THREE.MathUtils.randFloat(-0.3, 0.3));
-    const k = THREE.MathUtils.randFloat(0.6, 1.4);
-    blades.setMatrixAt(n, m4.compose(at.set(x, 0, z), q.setFromEuler(e), sc.set(k, k * THREE.MathUtils.randFloat(0.7, 1.6), k)));
-    blades.setColorAt(n, col.setHSL(0.24 + Math.random() * 0.06, 0.5, 0.2 + Math.random() * 0.14));
-    n++;
-  }
-  gYard.add(blades);
-}
 
 // a soft shadow under the whole slice, and a yellow outline on the cut face
 const sc = document.createElement("canvas"); sc.width = sc.height = 128;
@@ -491,7 +399,7 @@ function spawn(d, anywhere) {
 for (let i = 0; i < N; i++) { const d = {}; spawn(d, true); drops.push(d); }
 const rainGeo = new THREE.BufferGeometry();
 rainGeo.setAttribute("position", new THREE.BufferAttribute(rainPos, 3));
-const rainMat = new THREE.LineBasicMaterial({ color: "#C4E2FF", transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+const rainMat = new THREE.LineBasicMaterial({ color: "#A9D2FA", transparent: true, opacity: 0 });
 const rain = new THREE.LineSegments(rainGeo, rainMat);
 rain.frustumCulled = false;
 world.add(rain);
@@ -504,21 +412,6 @@ for (let i = 0; i < 40; i++) {
 }
 let rippleNext = 0;
 function ripple(x, y, z) { const r = ripples[rippleNext++ % ripples.length]; r.m.position.set(x, y + 0.01, z); r.life = 0; r.m.visible = true; }
-// a little drifting mist, so the storm has some air in it
-const mistTex = (() => {
-  const c = document.createElement("canvas"); c.width = c.height = 64;
-  const g = c.getContext("2d"), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-  gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(1, "rgba(255,255,255,0)");
-  g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
-  return new THREE.CanvasTexture(c);
-})();
-const MIST = small ? 50 : 120, mistPos = new Float32Array(MIST * 3);
-for (let i = 0; i < MIST; i++) { mistPos[i * 3] = THREE.MathUtils.randFloat(-14, 14); mistPos[i * 3 + 1] = THREE.MathUtils.randFloat(0.4, 10); mistPos[i * 3 + 2] = THREE.MathUtils.randFloat(-10, -0.5); }
-const mistGeo = new THREE.BufferGeometry();
-mistGeo.setAttribute("position", new THREE.BufferAttribute(mistPos, 3));
-const mistMat = new THREE.PointsMaterial({ map: mistTex, size: 3.4, color: "#6F82A3", transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
-const mist = new THREE.Points(mistGeo, mistMat);
-world.add(mist);
 // the downspout's puddle out on the lawn
 const puddle = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), M.water);
 puddle.rotation.x = -Math.PI / 2; puddle.position.set(7.45, 0.025, -0.35); puddle.scale.setScalar(0.001);
@@ -565,64 +458,23 @@ function newBolt() {
   bolt.geometry = new THREE.BufferGeometry().setFromPoints(pts);
 }
 
-// ---------- labels pinned to the model: tap one and the camera flies in to explain it ----------
-const SPOTS = [
-  { name: "Weeping tile", at: [-4.55, -3.1, 0.05], side: "left", phone: true, link: "services.html#exterior",
-    text: "A perforated pipe in clear stone beside the footing. It collects the water in the soil around the foundation and carries it to the sump pit, before it can push through the wall." },
-  { name: "Sump pump", at: [-3.05, -3.0, 0.05], phone: true, link: "services.html#sump",
-    text: "When the water in the pit rises, the pump switches on and pushes it up the pipe and out onto the lawn, away from the house. The City pays back up to $2,250 for one with an alarm." },
-  { name: "Waterproof membrane", at: [-4.06, -1.4, 0.05], side: "left", link: "services.html#exterior",
-    text: "A rubberized coating on the outside of the foundation wall, covered by a dimpled drainage board, so water runs down to the weeping tile instead of soaking into the concrete." },
-  { name: "Backwater valve", at: [2.28, -2.78, 0.05], link: "services.html#rebate",
-    text: "A one-way flap on the sewer pipe. Water can leave the house, but if the city sewer backs up in a storm, it can't come up through the floor drain. The City pays back up to $1,600." },
-  { name: "Downspout extension", at: [6.2, 0.15, -0.25], link: "services.html#grading",
-    text: "Carries the roof's water well away from the wall, so it doesn't soak the soil right against the foundation." },
-  { name: "Dry basement", at: [-0.6, -1.0, -2.0], phone: true, link: "services.html",
-    text: "All of it working together. The basement stays dry, even in a downpour." }
-];
-SPOTS.forEach((s) => { s.v = new THREE.Vector3(...s.at); });
-const DIP = { v: new THREE.Vector3(-1.2, -1.7, -1.2) }; // where the intro camera dips in for a look
-pinsBox.removeAttribute("aria-hidden");
-const card = document.createElement("div");
-card.className = "spot-card";
-card.hidden = true;
-card.setAttribute("role", "dialog");
-card.innerHTML = '<span class="spot-k">How it works</span><h3></h3><p></p><div class="spot-actions"><a class="btn btn-sm">How Wizards fixes it <span class="arr" aria-hidden="true">→</span></a><button type="button" class="spot-back">Back to the full view</button></div>';
-host.appendChild(card);
-let focus = null, lastSpot = null;
-const PINS = SPOTS.filter((s) => !small || s.phone).map((s) => {
-  const el = document.createElement("button");
-  el.type = "button";
-  const side = small ? "" : s.side || ""; // phones: every label to the right of its dot, so none fall off the edge
+// ---------- labels pinned to the model ----------
+const PINS = [
+  ["Weeping tile", [-4.55, -3.1, 0.05], "left", true],
+  ["Sump pump", [-3.05, -3.0, 0.05], "", true],
+  ["Waterproof membrane", [-4.06, -1.4, 0.05], "left", false],
+  ["Backwater valve", [2.28, -2.78, 0.05], "", false],
+  ["Downspout extension", [6.2, 0.15, -0.25], "", false],
+  ["Dry basement", [-0.6, -1.0, -2.0], "", true]
+].filter((p) => !small || p[3]).map(([text, pos, side]) => {
+  const el = document.createElement("div");
+  if (small) side = ""; // phones: every label to the right of its dot, so none fall off the left edge
   el.className = "pin " + side;
   el.innerHTML = "<span></span>";
-  el.firstChild.textContent = s.name;
-  el.setAttribute("aria-label", s.name + ", how it works");
-  el.addEventListener("click", () => (focus === s ? closeSpot() : openSpot(s)));
+  el.firstChild.textContent = text;
   pinsBox.appendChild(el);
-  // on phones the tile and pump dots are close together, so their labels split up and down
-  const dy = small ? ({ "Weeping tile": -15, "Sump pump": 15 })[s.name] || 0 : 0;
-  return { el, v: s.v, side, s, dy };
+  return { el, v: new THREE.Vector3(...pos), side };
 });
-function openSpot(s) {
-  focus = lastSpot = s;
-  card.querySelector("h3").textContent = s.name;
-  card.querySelector("p").textContent = s.text;
-  card.querySelector("a").href = s.link;
-  card.hidden = false;
-  pinsBox.classList.add("focused");
-  document.body.classList.add("spot-open");
-  PINS.forEach((p) => p.el.classList.toggle("active", p.s === s));
-}
-function closeSpot() {
-  focus = null;
-  card.hidden = true;
-  pinsBox.classList.remove("focused");
-  document.body.classList.remove("spot-open");
-  PINS.forEach((p) => p.el.classList.remove("active"));
-}
-card.querySelector(".spot-back").addEventListener("click", closeSpot);
-addEventListener("keydown", (e) => { if (e.key === "Escape" && focus) closeSpot(); });
 
 // ---------- camera: swoops in, then drifts; drag to look around ----------
 const target = new THREE.Vector3(0, 0.6, -2.2);
@@ -637,21 +489,11 @@ function resize() {
   camera.aspect = W / H;
   const a = camera.aspect;
   // wide screens: the model sits up and to the right, clear of the headline
-  R = a < 1 ? 31 / Math.max(a, 0.55) : a < 1.4 ? 39 : 37.5;
+  R = a < 1 ? 31 / Math.max(a, 0.55) : a < 1.4 ? 36 : 34;
   if (!narrow.matches && a > 1.2) camera.setViewOffset(W, H, -W * 0.25, H * 0.11, W, H);
   else camera.setViewOffset(W, H, 0, H * 0.04, W, H);
   camera.updateProjectionMatrix();
-  if (composer) { composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(W, H); }
 }
-// glow on anything bright: windows, lamps, the water, the lightning
-let composer = null;
-function makeComposer() {
-  composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(256, 256), small ? 0.55 : 0.75, 0.5, 0.8));
-  composer.addPass(new OutputPass());
-}
-try { makeComposer(); } catch (err) { composer = null; }
 resize();
 addEventListener("resize", resize);
 const cv = renderer.domElement;
@@ -675,13 +517,10 @@ const ease = {
   io: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 };
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
-const START = { theta: -2.2, phi: 0.26, R: 2.4 }; // high up and round the back, so it sweeps all the way round
-const BUILT = 4.4;
-const aim = new THREE.Vector3();
-let spotK = 0;
+const START = { theta: -0.9, phi: 0.32, R: 2.1 };
+const BUILT = 3.0;
 let t = quick ? 6 : 0, last = performance.now(), running = true, builtSent = false, nextFlash = quick ? 2 : 2.75, flashT = -1;
 const tmp = new THREE.Vector3();
-const perf = { n: 0, slow: 0 };
 
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000);
@@ -696,35 +535,20 @@ function frame(now) {
   }
   const lightsOn = clamp01((t - 2.25) / 0.6);
   lamps.forEach((l) => { l.intensity = l.userData.full * lightsOn; });
-  porchLight.intensity = porchLight.userData.full * lightsOn;
-  mistMat.opacity = 0.09 * clamp01((t - 2.45) / 1.2);
-  if (!still) for (let i = 0; i < MIST; i++) { mistPos[i * 3] += dt * (0.25 + (i % 5) * 0.06); if (mistPos[i * 3] > 14) mistPos[i * 3] = -14; }
-  mistGeo.attributes.position.needsUpdate = true;
   rainMat.opacity = 0.55 * clamp01((t - 2.45) / 0.8);
   outline.material.opacity = 0.7 * clamp01((t - 2.6) / 0.6);
   if (t > BUILT && !builtSent) { builtSent = true; dispatchEvent(new Event("wz3d:built")); pinsBox.classList.add("on"); }
 
-  // camera: sweeps round from behind while it builds, dips in to look at the basement, then pulls back.
-  // Tapping a label flies it in to that spot instead.
-  const k = ease.io(clamp01(t / 3.0));
-  const idle = still || focus ? 0 : Math.sin(t * 0.13) * 0.12;
+  // camera
+  const k = ease.io(clamp01(t / BUILT));
+  const idle = still ? 0 : Math.sin(t * 0.13) * 0.12;
   look.theta += ((look.mx * 0.35) - look.theta) * 0.04;
   look.phi += ((look.my * 0.12) - look.phi) * 0.04;
-  let th = THREE.MathUtils.lerp(START.theta, REST.theta, k) + idle + look.theta + look.dragT;
-  let ph = THREE.MathUtils.clamp(THREE.MathUtils.lerp(START.phi, REST.phi, k) + look.phi + look.dragP, 0.3, 1.48);
-  let rr = R * THREE.MathUtils.lerp(START.R, 1, k);
-  aim.copy(target);
-  spotK += ((focus ? 1 : 0) - spotK) * (1 - Math.exp(-dt * 3.2)); // same speed at any frame rate
-  const dipK = quick ? 0 : Math.pow(Math.sin(Math.PI * clamp01((t - 2.6) / 2.0)), 2) * 0.85;
-  const fk = Math.max(spotK, dipK), fv = spotK >= dipK && lastSpot ? lastSpot.v : DIP.v;
-  if (fk > 0.001) {
-    aim.lerp(fv, fk);
-    th = THREE.MathUtils.lerp(th, REST.theta * 0.5 + look.dragT * 0.6, fk);
-    ph = THREE.MathUtils.lerp(ph, 1.3 + look.dragP * 0.4, fk);
-    rr = THREE.MathUtils.lerp(rr, Math.min(R * 0.42, 15), fk);
-  }
-  camera.position.set(aim.x + rr * Math.sin(ph) * Math.sin(th), aim.y + rr * Math.cos(ph), aim.z + rr * Math.sin(ph) * Math.cos(th));
-  camera.lookAt(aim);
+  const th = THREE.MathUtils.lerp(START.theta, REST.theta, k) + idle + look.theta + look.dragT;
+  const ph = THREE.MathUtils.clamp(THREE.MathUtils.lerp(START.phi, REST.phi, k) + look.phi + look.dragP, 0.3, 1.48);
+  const rr = R * THREE.MathUtils.lerp(START.R, 1, k);
+  camera.position.set(target.x + rr * Math.sin(ph) * Math.sin(th), target.y + rr * Math.cos(ph), target.z + rr * Math.sin(ph) * Math.cos(th));
+  camera.lookAt(target);
 
   // rain and ripples
   const raining = t > 2.45;
@@ -795,14 +619,12 @@ function frame(now) {
     if (flashT > 0.5) { flashT = -1; flash.intensity = 0; boltMat.opacity = 0; scene.background.copy(SKY); nextFlash = t + THREE.MathUtils.randFloat(6, 11); }
   }
 
-  if (composer) composer.render(); else renderer.render(scene, camera);
-  // slow device? drop the glow so it stays smooth
-  if (composer && builtSent && !still && perf.n < 120) { perf.n++; if (dt > 1 / 32) perf.slow++; if (perf.n === 120 && perf.slow > 70) composer = null; }
+  renderer.render(scene, camera);
 
   // labels follow their spots
   if (builtSent) for (const p of PINS) {
     tmp.copy(p.v).project(camera);
-    const x = (tmp.x * 0.5 + 0.5) * W, y = (-tmp.y * 0.5 + 0.5) * H + p.dy;
+    const x = (tmp.x * 0.5 + 0.5) * W, y = (-tmp.y * 0.5 + 0.5) * H;
     p.el.style.transform = p.side === "left" ? `translate(calc(${x + 5}px - 100%), calc(${y}px - 50%))` : `translate(${x - 5}px, calc(${y}px - 50%))`;
   }
 }
@@ -822,5 +644,4 @@ function setRunning(on) {
 }
 if ("IntersectionObserver" in window) new IntersectionObserver((es) => setRunning(es[0].isIntersecting && !document.hidden)).observe(host);
 document.addEventListener("visibilitychange", () => setRunning(!document.hidden));
-window.WZ.loaded3d = true; // the 3D is set up; it starts drawing as soon as the tab is visible
 requestAnimationFrame(loop);

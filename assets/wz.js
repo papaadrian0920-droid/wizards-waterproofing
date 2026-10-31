@@ -299,12 +299,11 @@ document.documentElement.classList.add("js");
     };
     var reveal = function () { document.body.classList.add("shown"); };
     if (seenIntro || still) { if (curtain) curtain.remove(); curtain = null; }
-    addEventListener("wz3d:ready", function () { document.documentElement.classList.remove("no3d"); lift(); });
+    addEventListener("wz3d:ready", lift);
     addEventListener("wz3d:built", reveal);
     // if the 3D can't load (old phone, blocked script), show the flat drawing instead
     var fail = function () { document.documentElement.classList.add("no3d"); lift(); reveal(); };
     addEventListener("wz3d:fail", fail);
-    // (a tab opened in the background doesn't draw until you look at it, so only give up if the 3D never loaded at all)
-    setTimeout(function () { if (!window.WZ.ready3d && !window.WZ.loaded3d) fail(); }, 6000);
+    setTimeout(function () { if (!window.WZ.ready3d) fail(); }, 6000);
   }
 })();

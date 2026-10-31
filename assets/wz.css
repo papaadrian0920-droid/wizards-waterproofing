@@ -408,23 +408,3 @@ footer { border-top: 1px solid var(--line); padding-block: 64px 120px; backgroun
   .strata .stack, .pin::before, .hint i::after, .curtain .bar i { animation: none; }
   .tile, .tile h3, .tile p { transition: none; transform: none !important; }
 }
-
-/* ===== the 3D intro's labels: tap one and the camera flies in, with a card explaining it ===== */
-.pins .pin { pointer-events: auto; cursor: pointer; border: 0; background: none; padding: 0; font: inherit; color: inherit; transition: opacity .4s; }
-.pin span { transition: transform .25s var(--ease), background .2s, box-shadow .2s; }
-.pin:hover span, .pin:focus-visible span, .pin.active span { transform: scale(1.08); background: #fff; box-shadow: 0 6px 24px rgba(255, 201, 60, .45); }
-.pins.focused .pin:not(.active) { opacity: .28 !important; }
-.hero-text { transition: opacity .4s; }
-body.spot-open .hero-text, body.spot-open .hint { opacity: 0 !important; pointer-events: none; }
-.spot-card { position: absolute; z-index: 4; left: max(20px, calc((100vw - 1240px) / 2 + 20px)); top: 50%; transform: translateY(-50%); width: min(420px, calc(100% - 40px)); padding: 26px 26px 22px; border-radius: 22px; background: rgba(10, 11, 13, .84); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 201, 60, .38); box-shadow: 0 40px 90px -30px #000; display: grid; gap: 12px; animation: spot-in .55s var(--ease); }
-.spot-card h3 { font-size: clamp(2.2rem, 3.6vw, 3rem); line-height: .88; }
-.spot-card p { color: var(--soft); font-size: 1.05rem; }
-.spot-k { font: 600 .7rem/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--hi); }
-.spot-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 6px; }
-.spot-back { background: none; border: 0; padding: 0; color: var(--soft); font: 600 .92rem var(--f-body); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
-.spot-back:hover { color: var(--ink); }
-@keyframes spot-in { from { opacity: 0; transform: translateY(-44%); } }
-@media (max-width: 760px) {
-  .spot-card { left: 12px; right: 12px; width: auto; top: calc(54svh - 24px); transform: none; animation-name: spot-in-m; }
-  @keyframes spot-in-m { from { opacity: 0; transform: translateY(12px); } }
-}
