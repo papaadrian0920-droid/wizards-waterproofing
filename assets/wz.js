@@ -288,6 +288,8 @@ document.documentElement.classList.add("js");
 
   // ===== home: the loading curtain and the 3D intro =====
   var curtain = $(".curtain"), hero = $(".hero3d");
+  // phones skip the 3D house: just the headline and buttons
+  if (hero && matchMedia("(max-width: 760px)").matches) { if (curtain) curtain.remove(); document.body.classList.add("shown"); hero = null; }
   if (hero) {
     var seenIntro = false;
     try { seenIntro = sessionStorage.getItem("wz-intro") === "1"; sessionStorage.setItem("wz-intro", "1"); } catch (err) {}

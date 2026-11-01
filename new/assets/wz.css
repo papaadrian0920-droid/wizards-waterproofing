@@ -428,3 +428,9 @@ body.spot-open .hero-text, body.spot-open .hint { opacity: 0 !important; pointer
   .spot-card { left: 12px; right: 12px; width: auto; top: calc(54svh - 24px); transform: none; animation-name: spot-in-m; }
   @keyframes spot-in-m { from { opacity: 0; transform: translateY(12px); } }
 }
+
+/* phones: no 3D house, just the words */
+@media (max-width: 760px) {
+  .hero3d .pins, .hero3d .hint, .hero3d .hero-fallback, .hero3d canvas { display: none !important; }
+  .hero-text { margin-top: 0; padding: 56px 0 64px; }
+}

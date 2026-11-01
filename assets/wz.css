@@ -408,3 +408,9 @@ footer { border-top: 1px solid var(--line); padding-block: 64px 120px; backgroun
   .strata .stack, .pin::before, .hint i::after, .curtain .bar i { animation: none; }
   .tile, .tile h3, .tile p { transition: none; transform: none !important; }
 }
+
+/* phones: no 3D house, just the words */
+@media (max-width: 760px) {
+  .hero3d .pins, .hero3d .hint, .hero3d .hero-fallback, .hero3d canvas { display: none !important; }
+  .hero-text { margin-top: 0; padding: 56px 0 64px; }
+}
